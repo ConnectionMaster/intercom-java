@@ -1,47 +1,23 @@
-buildscript {
-  repositories {
-    jcenter()
-    mavenCentral()
-  }
-  //noinspection GroovyAssignabilityCheck
-  dependencies {
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+'
-    classpath 'org.ajoberstar:grgit:1.9.3'
-  }
-}
-
-allprojects {
-  apply plugin: 'idea'
+plugins {
+  id 'idea'
+  id 'signing'
 }
 
 subprojects {
-
-  buildscript {
-    repositories {
-      jcenter()
-      mavenCentral()
-    }
-    //noinspection GroovyAssignabilityCheck
-    dependencies {
-      classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+'
-      classpath 'org.ajoberstar:grgit:1.9.3'
-    }
-  }
-
   repositories {
-    jcenter()
     mavenCentral()
   }
 
   ext {
     jacksonVersion = '2.9.10'
+    jacksonDatabindVersion = "$jacksonVersion.8"
     powermockVersion = '1.6.6'
   }
 
   apply plugin: 'maven'
   apply plugin: 'maven-publish'
   apply plugin: 'java'
-  apply plugin: 'com.jfrog.bintray'
+  apply plugin: 'signing'
 
   sourceCompatibility = 1.7
   targetCompatibility = 1.7
@@ -50,7 +26,7 @@ subprojects {
   dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonDatabindVersion"
     compile "com.google.guava:guava:17.0"
     compile "org.slf4j:slf4j-api:1.7.25"
     compile "commons-codec:commons-codec:1.9"
@@ -60,6 +36,6 @@ subprojects {
   }
 }
 
-task wrapper(type: Wrapper) {
+wrapper {
   gradleVersion = '4.9'
 }
